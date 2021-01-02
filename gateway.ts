@@ -1,8 +1,12 @@
-import { Application, Router } from "https://deno.land/x/oak@v6.4.1/mod.ts";
+import {
+  Application,
+  Request,
+  Router,
+} from "https://deno.land/x/oak@v6.4.1/mod.ts";
 
 type Route = {
   url: string;
-  response: object;
+  handler: (req: Request) => object;
 };
 
 export const serve = async (routes: Route[]) => {
@@ -14,10 +18,10 @@ export const serve = async (routes: Route[]) => {
     ctx.response.body = "config page.";
   });
 
-  routes.forEach(({ url, response }) => {
-    router.get(url, ctx => {
+  routes.forEach(({ url, handler }) => {
+    router.get(url, (ctx) => {
       ctx.response.type = "application/json";
-      ctx.response.body = response;
+      ctx.response.body = JSON.stringify(handler(ctx.request));
     });
   });
 
