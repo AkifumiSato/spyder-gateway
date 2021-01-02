@@ -6,7 +6,7 @@ import {
 
 type Route = {
   url: string;
-  handler: (req: Request) => object;
+  handler: (req: Request) => Record<string, unknown>;
 };
 
 export const serve = async (routes: Route[]) => {
