@@ -25,7 +25,9 @@ export const serve = (routes: Route[], option?: Option) => {
   // logging
   app.use(async (ctx, next) => {
     await next();
-    Logger.log(`request: [status:${ctx.response.status}, url:${ctx.request.url}]`);
+    Logger.log(
+      `request: [status:${ctx.response.status}, url:${ctx.request.url}]`,
+    );
   });
 
   // config page

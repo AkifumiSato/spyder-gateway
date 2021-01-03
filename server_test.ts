@@ -6,7 +6,7 @@ import {
 } from "https://deno.land/x/oak@v6.4.1/types.d.ts";
 import { ListenOptions } from "https://deno.land/x/oak@v6.4.1/application.ts";
 import { assertEquals } from "https://deno.land/std@0.83.0/testing/asserts.ts";
-import { serve } from "./gateway.ts";
+import { serve } from "./server.ts";
 
 let serverRequestStack: ServerRequest[] = [];
 let serverResponseStack: ServerResponse[] = [];

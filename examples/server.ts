@@ -1,4 +1,4 @@
-import { serve } from "../gateway.ts";
+import { serve } from "../mod.ts";
 import { handler } from "./api/bar/foo.ts";
 
 await serve([
