@@ -45,7 +45,7 @@ const createMockRequest = (
   method: "GET",
 } as ServerRequest);
 
-Deno.test("hello world #1", async () => {
+Deno.test("application request test#1", async () => {
   const expect = {
     name: "example1",
     age: 20,
