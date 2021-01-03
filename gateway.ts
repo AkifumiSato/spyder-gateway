@@ -3,6 +3,7 @@ import {
   Request,
   Router,
 } from "https://deno.land/x/oak@v6.4.1/mod.ts";
+import { Serve } from "https://deno.land/x/oak@v6.4.1/types.d.ts";
 
 type Route = {
   url: string;
@@ -11,10 +12,13 @@ type Route = {
 
 type Option = {
   port?: number;
+  application?: {
+    serve: Serve;
+  };
 };
 
-export const serve = async (routes: Route[], option?: Option) => {
-  const app = new Application();
+export const serve = (routes: Route[], option?: Option) => {
+  const app = new Application(option?.application);
   const router = new Router();
 
   // config page
@@ -34,5 +38,5 @@ export const serve = async (routes: Route[], option?: Option) => {
 
   const port = option?.port ?? 6007;
   console.log(`server listening on ${port}`);
-  await app.listen({ port });
+  return app.listen({ port });
 };
