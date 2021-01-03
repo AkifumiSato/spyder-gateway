@@ -9,7 +9,11 @@ type Route = {
   handler: (req: Request) => Record<string, unknown>;
 };
 
-export const serve = async (routes: Route[]) => {
+type Option = {
+  port?: number;
+};
+
+export const serve = async (routes: Route[], option?: Option) => {
   const app = new Application();
   const router = new Router();
 
@@ -20,6 +24,7 @@ export const serve = async (routes: Route[]) => {
 
   routes.forEach(({ url, handler }) => {
     router.get(url, (ctx) => {
+      console.log(`request url: [${ctx.request.url}]`);
       ctx.response.type = "application/json";
       ctx.response.body = JSON.stringify(handler(ctx.request));
     });
@@ -27,7 +32,7 @@ export const serve = async (routes: Route[]) => {
 
   app.use(router.routes());
 
-  const port = 6007;
+  const port = option?.port ?? 6007;
   console.log(`server listening on ${port}`);
   await app.listen({ port });
 };
