@@ -1,38 +1,12 @@
-import {
-  Application,
-  Request,
-  Router,
-} from "https://deno.land/x/oak@v6.4.1/mod.ts";
+import { Application, Router } from "https://deno.land/x/oak@v6.4.1/mod.ts";
 import { Serve } from "https://deno.land/x/oak@v6.4.1/types.d.ts";
-import { expandGlob } from "https://deno.land/std@0.83.0/fs/mod.ts";
+import { readApiDirectory } from "./fs_util.ts";
 import * as Logger from "./logger.ts";
-
-type Route = {
-  url: string;
-  handler: (req: Request) => Record<string, unknown>;
-};
-
-const readApiDirectory = async (): Promise<Route[]> => {
-  const [apiPath] = Deno.args;
-  if (!apiPath) throw new Error("specified your api directory path.");
-
-  const result: Route[] = [];
-  for await (const entry of expandGlob(`${Deno.cwd()}/${apiPath}/**/*.ts`)) {
-    const module = await import(entry.path);
-    if (!module.handler) throw new Error("must export handler functions.");
-    result.push({
-      url: "/" + entry.path
-        .replace(`${Deno.cwd()}/${apiPath}`, "")
-        .replace(".ts", ""),
-      handler: module.handler,
-    });
-  }
-
-  return result;
-};
+import { Route } from "./types.d.ts";
 
 type Option = {
   port?: number;
+  debug?: boolean;
   application?: {
     serve: Serve;
   };
