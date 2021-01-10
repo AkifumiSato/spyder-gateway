@@ -1,10 +1,7 @@
 import { expandGlob } from "https://deno.land/std@0.83.0/fs/mod.ts";
 import { Route } from "./types.d.ts";
 
-export const readApiDirectory = async (): Promise<Route[]> => {
-  const [apiPath] = Deno.args;
-  if (!apiPath) throw new Error("specified your api directory path.");
-
+export const readApiDirectory = async (apiPath: string): Promise<Route[]> => {
   const result: Route[] = [];
   for await (const entry of expandGlob(`${Deno.cwd()}/${apiPath}/**/*.ts`)) {
     const module = await import(entry.path);

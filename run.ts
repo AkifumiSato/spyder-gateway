@@ -1,3 +1,6 @@
 import { serve } from "./server.ts";
 
-await serve();
+const [apiPath] = Deno.args;
+if (!apiPath) throw new Error("specified your api directory path.");
+
+await serve(apiPath);

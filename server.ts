@@ -13,7 +13,7 @@ type Option = {
   routes?: Route[];
 };
 
-export const serve = async (option?: Option) => {
+export const serve = async (apiPath: string, option?: Option) => {
   const app = new Application(option?.application);
   const router = new Router();
 
@@ -30,7 +30,7 @@ export const serve = async (option?: Option) => {
     ctx.response.body = "config page.";
   });
 
-  const apiRoutes = option?.routes ?? await readApiDirectory();
+  const apiRoutes = option?.routes ?? await readApiDirectory(apiPath);
   apiRoutes.forEach(({ url, handler }) => {
     router.get(url, (ctx) => {
       ctx.response.type = "application/json";
