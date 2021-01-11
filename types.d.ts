@@ -6,8 +6,6 @@ type ApiModule = {
   handler: Handler;
 };
 
-type ReadModule = Partial<ApiModule>;
-
 type Route = {
   url: string;
   handler: Handler;

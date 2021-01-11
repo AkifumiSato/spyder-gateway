@@ -52,7 +52,7 @@ Deno.test("application request test#1", async () => {
   };
 
   serverRequestStack.push(createMockRequest("/foo/bar"));
-  await serve("/not_exist", {
+  await serve("/not_exist", {}, {
     application: {
       serve: mockServe,
     },

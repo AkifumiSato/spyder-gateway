@@ -7,14 +7,17 @@ import { Route } from "./types.d.ts";
 type Option = {
   port?: number;
   debug?: boolean;
+};
+
+type Mock = {
   application?: {
     serve: Serve;
   };
   routes?: Route[];
 };
 
-export const serve = async (apiPath: string, option?: Option) => {
-  const app = new Application(option?.application);
+export const serve = async (apiPath: string, option?: Option, mock?: Mock) => {
+  const app = new Application(mock?.application);
   const router = new Router();
 
   // logging
@@ -30,7 +33,7 @@ export const serve = async (apiPath: string, option?: Option) => {
     ctx.response.body = "config page.";
   });
 
-  const apiRoutes = option?.routes ?? await readApiDirectory(apiPath);
+  const apiRoutes = mock?.routes ?? await readApiDirectory(apiPath);
   apiRoutes.forEach(({ url, handler }) => {
     router.get(url, (ctx) => {
       ctx.response.type = "application/json";
