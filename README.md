@@ -13,7 +13,34 @@ These mean the following,
 
 ## Getting start
 
-```sh
-// in your api root directory.
-deno run --allow-net --allow-read --unstable run.ts
+### example run in this repository.
+
+```
+deno run --allow-net --allow-read --unstable example.ts
+```
+
+### your directory
+
+```typescript
+import { serve } from "https://raw.githubusercontent.com/AkifumiSato/spyder-gateway/v0.0.2/server.ts";
+import { readTsFilePaths } from "https://raw.githubusercontent.com/AkifumiSato/spyder-gateway/v0.0.2/fs_util.ts";
+import {
+  ApiModule,
+  Route,
+} from "https://raw.githubusercontent.com/AkifumiSato/spyder-gateway/v0.0.2/types.d.ts";
+
+const routes: Route[] = [];
+const apiEntries = await readTsFilePaths("api");
+
+for (const [url, path] of apiEntries) {
+  const module = await import(path);
+  if (!module.handler) throw new Error("must export handler functions.");
+
+  routes.push({
+    url,
+    handler: (module as ApiModule).handler,
+  });
+}
+
+await serve(routes);
 ```
