@@ -52,16 +52,17 @@ Deno.test("application request test#1", async () => {
   };
 
   serverRequestStack.push(createMockRequest("/foo/bar"));
-  await serve("/not_exist", {}, {
+
+  const routes = [
+    {
+      url: "/foo/bar",
+      handler: () => expect,
+    },
+  ];
+  await serve(routes, {}, {
     application: {
       serve: mockServe,
     },
-    routes: [
-      {
-        url: "/foo/bar",
-        handler: () => expect,
-      },
-    ],
   });
   const result = (new TextDecoder()).decode(
     serverResponseStack[0].body as Uint8Array,

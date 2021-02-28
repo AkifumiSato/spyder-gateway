@@ -1,6 +1,5 @@
 import { Application, Router } from "https://deno.land/x/oak@v6.4.1/mod.ts";
 import { Serve } from "https://deno.land/x/oak@v6.4.1/types.d.ts";
-import { readApiDirectory } from "./fs_util.ts";
 import * as Logger from "./logger.ts";
 import { Route } from "./types.d.ts";
 
@@ -13,10 +12,9 @@ type Mock = {
   application?: {
     serve: Serve;
   };
-  routes?: Route[];
 };
 
-export const serve = async (apiPath: string, option?: Option, mock?: Mock) => {
+export const serve = async (routes: Route[], option?: Option, mock?: Mock) => {
   const app = new Application(mock?.application);
   const router = new Router();
 
@@ -30,11 +28,11 @@ export const serve = async (apiPath: string, option?: Option, mock?: Mock) => {
 
   // config page
   router.get("/__config__", (ctx) => {
+    // todo impl
     ctx.response.body = "config page.";
   });
 
-  const apiRoutes = mock?.routes ?? await readApiDirectory(apiPath);
-  apiRoutes.forEach(({ url, handler }) => {
+  routes.forEach(({ url, handler }) => {
     router.get(url, (ctx) => {
       ctx.response.type = "application/json";
       ctx.response.body = JSON.stringify(handler(ctx.request));
