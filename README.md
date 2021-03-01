@@ -42,5 +42,7 @@ for (const [url, path] of apiEntries) {
   });
 }
 
-await serve(routes);
+await serve(routes, {
+  allowOrigin: ["http://localhost:3000"],
+});
 ```

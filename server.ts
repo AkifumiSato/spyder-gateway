@@ -6,6 +6,7 @@ import { Route } from "./types.d.ts";
 type Option = {
   port?: number;
   debug?: boolean;
+  allowOrigin?: string[];
 };
 
 type Mock = {
@@ -18,18 +19,19 @@ export const serve = async (routes: Route[], option?: Option, mock?: Mock) => {
   const app = new Application(mock?.application);
   const router = new Router();
 
-  // logging
   app.use(async (ctx, next) => {
+    // logging
     await next();
     Logger.log(
       `request: [status:${ctx.response.status}, url:${ctx.request.url}]`,
     );
-  });
-
-  // config page
-  router.get("/__config__", (ctx) => {
-    // todo impl
-    ctx.response.body = "config page.";
+    // cors
+    if (option?.allowOrigin?.length) {
+      const origin = ctx.request.headers.get("Origin");
+      if (origin && option.allowOrigin.includes(origin)) {
+        ctx.response.headers.set("Access-Control-Allow-Origin", origin);
+      }
+    }
   });
 
   routes.forEach(({ url, handler }) => {
