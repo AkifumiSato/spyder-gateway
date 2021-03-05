@@ -35,9 +35,10 @@ export const serve = async (routes: Route[], option?: Option, mock?: Mock) => {
   });
 
   routes.forEach(({ url, handler }) => {
-    router.get(url, (ctx) => {
+    router.get(url, async (ctx) => {
       ctx.response.type = "application/json";
-      ctx.response.body = JSON.stringify(handler(ctx.request));
+      const res = await handler(ctx.request)
+      ctx.response.body = JSON.stringify(res);
     });
   });
 
