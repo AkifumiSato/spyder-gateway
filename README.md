@@ -19,7 +19,7 @@ These mean the following,
 deno run --allow-net --allow-read --unstable example.ts
 ```
 
-### your directory
+### in your directory
 
 ```typescript
 import { serve } from "https://raw.githubusercontent.com/AkifumiSato/spyder-gateway/v0.1.0/server.ts";
@@ -30,7 +30,7 @@ import {
 } from "https://raw.githubusercontent.com/AkifumiSato/spyder-gateway/v0.1.0/types.d.ts";
 
 const routes: Route[] = [];
-const apiEntries = await readTsFilePaths("api");
+const apiEntries = await readTsFilePaths("api"); // example: from this file, `./api`
 
 for (const [url, path] of apiEntries) {
   const module = await import(path);
@@ -45,4 +45,18 @@ for (const [url, path] of apiEntries) {
 await serve(routes, {
   allowOrigin: ["http://localhost:3000"],
 });
+```
+
+### api directory
+If the handler file path is `/hoge/fuga.ts`, the mock API URL path will be `http://localhost:6007/hoge/fuga`
+
+```typescript
+export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export const handler = async () => {
+  await sleep(1000);
+  return {
+    name: "[name]",
+  };
+};
 ```
