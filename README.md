@@ -20,8 +20,12 @@ deno run --allow-net --allow-read --unstable example.ts
 ```
 
 ### in your directory
+The files that start the mock server are: mock.ts.
+
+In this case, if you export the `Handler` type in the file(`/api/**/*.ts`), the mock server will return the execution result according to the file path.
 
 ```typescript
+// mock.ts
 import { serve } from "https://raw.githubusercontent.com/AkifumiSato/spyder-gateway/v0.1.0/server.ts";
 import { readTsFilePaths } from "https://raw.githubusercontent.com/AkifumiSato/spyder-gateway/v0.1.0/fs_util.ts";
 import {
@@ -47,8 +51,8 @@ await serve(routes, {
 });
 ```
 
-### api directory
-If the handler file path is `/hoge/fuga.ts`, the mock API URL path will be `http://localhost:6007/hoge/fuga`
+### api mock directory
+If the handler file path is `/hoge/fuga.ts`, the mock API URL path will be `http://localhost:6007/hoge/fuga`.
 
 ```typescript
 export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
