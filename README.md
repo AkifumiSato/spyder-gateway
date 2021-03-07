@@ -79,7 +79,7 @@ Next.js like dynamic routing is possible by making the file name something like
 ```typescript
 import { Handler } from "../../../types.d.ts";
 
-export const handler: Handler = (req, params) => {
+export const handler: Handler<{ name: string }> = (req, params) => {
   return {
     name: `${params.name}`,
   };

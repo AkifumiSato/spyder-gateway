@@ -1,7 +1,7 @@
 import { Application, Router } from "https://deno.land/x/oak@v6.4.1/mod.ts";
 import { Serve } from "https://deno.land/x/oak@v6.4.1/types.d.ts";
 import * as Logger from "./logger.ts";
-import { Route } from "./types.d.ts";
+import { AnyParams, Route } from "./types.d.ts";
 
 type Option = {
   port?: number;
@@ -38,7 +38,10 @@ export const serve = async (routes: Route[], option?: Option, mock?: Mock) => {
   sortedRoutes.forEach(({ url, handler }) => {
     router.get(url, async (ctx) => {
       ctx.response.type = "application/json";
-      const res = await handler(ctx.request, ctx.params);
+      const res = await handler(
+        ctx.request,
+        ctx.params as AnyParams,
+      );
       ctx.response.body = JSON.stringify(res);
     });
   });
@@ -47,5 +50,5 @@ export const serve = async (routes: Route[], option?: Option, mock?: Mock) => {
 
   const port = option?.port ?? 6007;
   Logger.info(`server listening on ${port}`);
-  return app.listen({ port });
+  return await app.listen({ port });
 };
