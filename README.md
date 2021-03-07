@@ -28,12 +28,12 @@ mock server will return the execution result according to the file path.
 
 ```typescript
 // mock.ts
-import { serve } from "https://raw.githubusercontent.com/AkifumiSato/spyder-gateway/v0.1.0/server.ts";
-import { readTsFilePaths } from "https://raw.githubusercontent.com/AkifumiSato/spyder-gateway/v0.1.0/fs_util.ts";
+import { serve } from "https://raw.githubusercontent.com/AkifumiSato/spyder-gateway/v0.1.3/server.ts";
+import { readTsFilePaths } from "https://raw.githubusercontent.com/AkifumiSato/spyder-gateway/v0.1.3/fs_util.ts";
 import {
   ApiModule,
   Route,
-} from "https://raw.githubusercontent.com/AkifumiSato/spyder-gateway/v0.1.0/types.d.ts";
+} from "https://raw.githubusercontent.com/AkifumiSato/spyder-gateway/v0.1.3/types.d.ts";
 
 const routes: Route[] = [];
 const apiEntries = await readTsFilePaths("api"); // example: from this file, `./api`
