@@ -20,9 +20,11 @@ deno run --allow-net --allow-read --unstable example.ts
 ```
 
 ### in your directory
+
 The files that start the mock server are: mock.ts.
 
-In this case, if you export the `Handler` type in the file(`/api/**/*.ts`), the mock server will return the execution result according to the file path.
+In this case, if you export the `Handler` type in the file(`/api/**/*.ts`), the
+mock server will return the execution result according to the file path.
 
 ```typescript
 // mock.ts
@@ -52,15 +54,34 @@ await serve(routes, {
 ```
 
 ### api mock directory
-If the handler file path is `/hoge/fuga.ts`, the mock API URL path will be `http://localhost:6007/hoge/fuga`.
+
+If the handler file path is `/hoge/fuga.ts`, the mock API URL path will be
+`http://localhost:6007/hoge/fuga`.
 
 ```typescript
-export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+export const sleep = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
 export const handler = async () => {
   await sleep(1000);
   return {
     name: "[name]",
+  };
+};
+```
+
+### dynamic routes
+
+Next.js like dynamic routing is possible by making the file name something like
+`[param].ts`. You can get the matched parameters with the second argument of
+`Handler`.
+
+```typescript
+import { Handler } from "../../../types.d.ts";
+
+export const handler: Handler = (req, params) => {
+  return {
+    name: `${params.name}`,
   };
 };
 ```

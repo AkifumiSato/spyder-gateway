@@ -34,10 +34,11 @@ export const serve = async (routes: Route[], option?: Option, mock?: Mock) => {
     }
   });
 
-  routes.forEach(({ url, handler }) => {
+  const sortedRoutes = routes.sort((a) => a.url.indexOf(":"));
+  sortedRoutes.forEach(({ url, handler }) => {
     router.get(url, async (ctx) => {
       ctx.response.type = "application/json";
-      const res = await handler(ctx.request)
+      const res = await handler(ctx.request, ctx.params);
       ctx.response.body = JSON.stringify(res);
     });
   });

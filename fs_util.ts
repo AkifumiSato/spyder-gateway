@@ -12,6 +12,9 @@ export const readTsFilePaths = async (
   for await (const entry of entryPromises) {
     const url = entry.path
       .replace(`${Deno.cwd()}/${normalizePath}`, "")
+      .replace(/\[\w*\]/g, "\:$&")
+      .replace("[", "")
+      .replace("]", "")
       .replace(".ts", "");
     result.push([url, entry.path]);
   }
