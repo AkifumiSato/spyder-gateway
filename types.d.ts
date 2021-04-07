@@ -1,10 +1,10 @@
 import { Request } from "https://deno.land/x/oak@v6.4.1/mod.ts";
 
-type AnyParams = {
+export type AnyParams = {
   param: never;
 };
 
-type Handler<
+export type Handler<
   T extends {
     [key: string]: string | number;
   } = AnyParams,
@@ -13,11 +13,11 @@ type Handler<
   params: T,
 ) => Record<string, unknown> | Promise<Record<string, unknown>>;
 
-type ApiModule = {
+export type ApiModule = {
   handler: Handler;
 };
 
-type Route = {
+export type Route = {
   url: string;
   handler: Handler;
 };

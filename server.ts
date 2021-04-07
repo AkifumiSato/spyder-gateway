@@ -3,13 +3,13 @@ import { Serve } from "https://deno.land/x/oak@v6.4.1/types.d.ts";
 import * as Logger from "./logger.ts";
 import { AnyParams, Route } from "./types.d.ts";
 
-type Option = {
+export type Option = {
   port?: number;
   debug?: boolean;
   allowOrigin?: string[];
 };
 
-type Mock = {
+export type Mock = {
   application?: {
     serve: Serve;
   };
